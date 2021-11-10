@@ -13,6 +13,8 @@ import PropTypes from "prop-types";
 
 import api from "services/api";
 
+// import "./logmodal.css";
+
 class ProcessLog extends React.Component {
   state = {
     modal: false,
@@ -22,6 +24,25 @@ class ProcessLog extends React.Component {
   toggle = () => {
     this.setState({
       modal: !this.state.modal
+    });
+    if (!this.timer) {
+      this.timer = setInterval(()=> this.refreshLogs(), 10000);
+    } else {
+      clearInterval(this.timer)
+      this.timer = null;
+    }
+  };
+
+  refreshLogs = () => {
+    const { node, process } = this.props;
+    const processUniqueName = `${process.group}:${process.name}`;
+    api.processes.process
+      .log(node.general.name, processUniqueName)
+      .then(data => {
+        console.log(data);
+        this.setState({
+          logs: data.logs
+        });
     });
   };
 
@@ -50,7 +71,7 @@ class ProcessLog extends React.Component {
           <ModalHeader toggle={this.toggle}>
             Node: {node.general.name} | Process: {process.name}
           </ModalHeader>
-          <ModalBody>
+          <ModalBody className="log-mono">
             {this.state.logs && (
               <React.Fragment>
                 <strong>Stdout</strong>

@@ -31,7 +31,7 @@ def is_admin_or_normal_user(log_message=""):
     def actual_decorator(f):
         @wraps(f)
         def wrap(*args, **kwargs):
-            if g.user.is_admin and g.user.is_normal_user:
+            if g.user.is_admin() or g.user.is_normal_user():
                 return f(*args, **kwargs)
 
             if not log_message == "":
@@ -52,7 +52,7 @@ def is_admin(log_message=""):
     def actual_decorator(f):
         @wraps(f)
         def wrap(*args, **kwargs):
-            if g.user.is_admin:
+            if g.user.is_admin():
                 return f(*args, **kwargs)
 
             if not log_message == "":

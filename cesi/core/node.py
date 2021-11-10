@@ -56,11 +56,13 @@ class Node:
         return process
 
     def get_process_logs(self, unique_name):
-        stdout_log_string = self.connection.supervisor.tailProcessStdoutLog(
-            unique_name, 0, 500
-        )[0]
+        stdout_log = self.connection.supervisor.tailProcessStdoutLog(
+            unique_name, 0, 1500
+        )
+        print(stdout_log[1], stdout_log[2])
+        stdout_log_string = stdout_log[0]
         stderr_log_string = self.connection.supervisor.tailProcessStderrLog(
-            unique_name, 0, 500
+            unique_name, 0, 1500
         )[0]
         logs = {
             "stdout": stdout_log_string.split("\n")[1:-1],

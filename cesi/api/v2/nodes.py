@@ -156,18 +156,12 @@ def read_process_log(node_name, unique_process_name):
             return jsonify(status="error", message="Node is not connected"), 400
 
         logs = node.get_process_logs(unique_process_name)
-        activity.logger.info(
-            "{} read log {} node's {} process.".format(
-                g.user.username, node_name, unique_process_name
-            )
-        )
+        # activity.logger.info(
+        #     "{} read log {} node's {} process.".format(
+        #         g.user.username, node_name, unique_process_name
+        #     )
+        # )
         return jsonify(status="success", logs=logs)
-
-    activity.logger.info(
-        "{} is unauthorized user request for read log. Read log event fail for {} node's {} process.".format(
-            g.user.username, node_name, unique_process_name
-        )
-    )
     return (
         jsonify(status="error", message="You are not authorized for this action"),
         500,

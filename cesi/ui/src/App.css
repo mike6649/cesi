@@ -30,3 +30,13 @@
     transform: rotate(360deg);
   }
 }
+
+.modal-dialog {
+    width: 90%;
+    max-width: none !important;
+}
+
+.log-mono {
+    font-family: monospace;
+    line-height: 1
+}
